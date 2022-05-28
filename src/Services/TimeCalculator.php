@@ -7,19 +7,42 @@ namespace App\Services;
 class TimeCalculator
 {
     protected float $amount;
-    protected float $pricePerUnit = 2;
+    protected float $pricePerUnit;
 
-    public function setAmount(float $amount)
+    /**
+     * @return float
+     */
+    public function getAmount(): float
+    {
+        return $this->amount;
+    }
+
+    /**
+     * @param float $amount
+     */
+    public function setAmount(float $amount): void
     {
         $this->amount = $amount;
     }
 
-    public function getPricePerUnit()
+    /**
+     * @return float
+     */
+    public function getPricePerUnit(): float
     {
         return $this->pricePerUnit;
     }
 
-    public function calculate()
+    /**
+     * @param float $pricePerUnit
+     */
+    public function setPricePerUnit(float $pricePerUnit): void
+    {
+        $this->pricePerUnit = $pricePerUnit;
+    }
+
+
+    public function calculate(): float
     {
         return $this->amount * $this->pricePerUnit;
     }

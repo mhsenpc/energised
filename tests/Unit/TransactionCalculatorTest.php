@@ -12,6 +12,7 @@ class TimeCalculatorTest extends TestCase
     {
         $sut = new TransactionCalculator();
         $sut->setAmount(2);
+        $sut->setPricePerUnit(1);
         $this->assertEquals(
             2,
             $sut->calculate()
@@ -22,6 +23,7 @@ class TimeCalculatorTest extends TestCase
     {
         $sut = new TransactionCalculator();
         $sut->setAmount(2.5);
+        $sut->setPricePerUnit(1);
         $this->assertEquals(
             2.5,
             $sut->calculate()
@@ -32,6 +34,7 @@ class TimeCalculatorTest extends TestCase
     {
         $sut = new TransactionCalculator();
         $sut->setAmount(2);
+        $sut->setPricePerUnit(1);
         $this->assertNotEquals(
             10,
             $sut->calculate()
