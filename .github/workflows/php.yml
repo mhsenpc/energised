@@ -28,6 +28,6 @@ jobs:
             ${{ runner.os }}-php-
 
       - name: Install dependencies
-        run: composer install --no-progress
+        run: composer install --no-progress --ignore-platform-reqs
       - name: Run test suite
         run: vendor\bin\phpunit -c phpunit.xml
