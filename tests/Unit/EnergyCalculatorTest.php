@@ -4,39 +4,55 @@
 namespace Tests;
 
 
-use App\Services\EnergyCalculator;
-use App\Services\TimeCalculator;
+use App\Exceptions\InvalidMeterValueException;
+use App\Services\Calculators\EnergyCalculator;
 use PHPUnit\Framework\TestCase;
 
 class EnergyCalculatorTest extends TestCase
 {
-    public function testItWorksWithStandardInput(){
+    public function testCalculate(){
         $sut = new EnergyCalculator();
         $sut->setPricePerUnit(0.30);
-        $sut->setAmount(2);
+        $sut->setMeterStart(20);
+        $sut->setMeterStop(100);
         $this->assertEquals(
-            0.60,
+            80 * 0.30,
             $sut->calculate()
         );
     }
 
-    public function testItWorksWithFloatInput(){
-        $sut = new EnergyCalculator();
-        $sut->setAmount(2.5);
-        $sut->setPricePerUnit(0.30);
-        $this->assertEquals(
-            0.75,
-            $sut->calculate()
-        );
-    }
 
     public function testItFailsWithWrongInput(){
         $sut = new EnergyCalculator();
-        $sut->setAmount(2);
+        $sut->setMeterStart(20);
+        $sut->setMeterStop(100);
         $sut->setPricePerUnit(0.30);
         $this->assertNotEquals(
             10,
             $sut->calculate()
         );
+    }
+
+    public function testItReturnsRightAmount(){
+        $sut = new EnergyCalculator();
+        $sut->setMeterStart(20);
+        $sut->setMeterStop(100);
+        $this->assertEquals(
+            80,
+            $sut->getAmount()
+        );
+    }
+
+    /**
+     * @expectedException InvalidMeterValueException
+     */
+    public function testItShouldReturnException(){
+        $sut = new EnergyCalculator();
+        $sut->setMeterStart(100);
+        $sut->setMeterStop(90);
+
+        $this->expectException(InvalidMeterValueException::class);
+
+        $sut->getAmount();
     }
 }

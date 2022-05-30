@@ -2,46 +2,41 @@
 
 namespace App\Controllers;
 
-use App\Services\Calculator;
-use App\Services\ChargingAmount;
-use App\Services\ChargingTime;
-use App\Services\EnergyCalculator;
-use App\Services\TimeCalculator;
-use App\Services\TransactionCalculator;
+use App\Services\Calculators\EnergyCalculator;
+use App\Services\Calculators\TimeCalculator;
+use App\Services\Calculators\TransactionCalculator;
+use App\Services\RateCalculator;
 
 class RateController extends Controller
 {
-    public function calculate(){
+    public function calculate()
+    {
         $input = file_get_contents('php://input');
         $data = json_decode($input);
 
-        $chargingAmount = new ChargingAmount();
-        $chargingAmount->setMeterStart($data->cdr->meterStart);
-        $chargingAmount->setMeterStop($data->cdr->meterStop);
-
-        $chargingTime = new ChargingTime();
-        $chargingTime->setTimestampStart($data->cdr->timestampStart);
-        $chargingTime->setTimestampStop($data->cdr->timestampStop);
-
+        $rateCalculator = new RateCalculator();
 
         $energyCalculator = new EnergyCalculator();
         $energyCalculator->setPricePerUnit($data->rate->energy);
-        $energyCalculator->setAmount($chargingAmount->get());
+        $energyCalculator->setMeterStart($data->cdr->meterStart);
+        $energyCalculator->setMeterStop($data->cdr->meterStop);
+        $rateCalculator->addComponent($energyCalculator);
 
         $timeCalculator = new TimeCalculator();
         $timeCalculator->setPricePerUnit($data->rate->time);
-        $timeCalculator->setAmount($chargingTime->get());
+        $timeCalculator->setTimestampStart($data->cdr->timestampStart);
+        $timeCalculator->setTimestampStop($data->cdr->timestampStop);
+        $rateCalculator->addComponent($timeCalculator);
 
         $transactionCalculator = new TransactionCalculator();
         $transactionCalculator->setPricePerUnit($data->rate->transaction);
-        $transactionCalculator->setAmount(1);
+        $rateCalculator->addComponent($transactionCalculator);
 
-
-        $response= [];
-        $response['overall'] = $energyCalculator->calculate() +  $timeCalculator->calculate() + $transactionCalculator->calculate();
-        $response['components']['energy'] =  $energyCalculator->calculate();
-        $response['components']['time'] =  $timeCalculator->calculate();
-        $response['components']['transaction'] =  $transactionCalculator->calculate();
+        $response = [];
+        $response['overall'] = $rateCalculator->getTotalAmount();
+        foreach ($rateCalculator->getComponents() as $component) {
+            $response['components'][$component->getName()] = $component->calculate();
+        }
 
         return json_encode($response);
     }

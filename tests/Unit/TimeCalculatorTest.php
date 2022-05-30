@@ -2,41 +2,57 @@
 
 namespace Tests;
 
-use App\Services\TimeCalculator;
+use App\Services\Calculators\TimeCalculator;
 use PHPUnit\Framework\TestCase;
 
 class TimeCalculatorTest extends TestCase
 {
-    public function testItWorksWithStandardInput()
+    public function testItCalculate()
     {
         $sut = new TimeCalculator();
-        $sut->setAmount(2);
+        $sut->setTimestampStart('2021-04-05T10:04:00Z');
+        $sut->setTimestampStop('2021-04-05T13:04:00Z');
         $sut->setPricePerUnit(2);
         $this->assertEquals(
-            4,
+            3 * 2,
             $sut->calculate()
         );
     }
 
-    public function testItWorksWithFloatInput()
+    public function testGetAmount()
     {
         $sut = new TimeCalculator();
-        $sut->setAmount(2.5);
-        $sut->setPricePerUnit(2);
+        $sut->setTimestampStart('2021-04-05T10:04:00Z');
+        $sut->setTimestampStop('2021-04-05T13:34:00Z');
         $this->assertEquals(
-            5,
-            $sut->calculate()
+            3,
+            $sut->getAmount()
         );
     }
 
-    public function testItFailsWithWrongInput()
+    public function testItWorksWithMoreThanADayInput()
     {
         $sut = new TimeCalculator();
-        $sut->setAmount(2);
+        $sut->setTimestampStart('2021-04-05T10:04:00Z');
+        $sut->setTimestampStop('2021-04-07T10:04:00Z');
         $sut->setPricePerUnit(2);
-        $this->assertNotEquals(
-            10,
-            $sut->calculate()
+
+        $this->assertEquals(
+            48,
+            $sut->getAmount()
+        );
+    }
+
+    public function testItWorksWithViceVersaInput()
+    {
+        $sut = new TimeCalculator();
+        $sut->setTimestampStart('2021-04-05T13:04:00Z');
+        $sut->setTimestampStop('2021-04-05T11:04:00Z');
+        $sut->setPricePerUnit(2);
+
+        $this->assertEquals(
+            2,
+            $sut->getAmount()
         );
     }
 }
