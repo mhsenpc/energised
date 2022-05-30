@@ -2,7 +2,7 @@ name: PHP Composer
 
 on:
   push:
-    branches: [ master,feat/ci ]
+    branches: [ master ]
   pull_request:
     branches: [ master]
 
@@ -29,6 +29,5 @@ jobs:
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
-
-     - name: vendor\bin\phpunit -c phpunit.xml
-       run: vendor\bin\phpunit -c phpunit.xml
+      - name: Run test suite
+        run: vendor\bin\phpunit -c phpunit.xml
