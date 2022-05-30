@@ -1,4 +1,5 @@
 {
+    "name": "Energised Coding Challenge",
     "require-dev": {
         "phpunit/phpunit": "9"
     },
