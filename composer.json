@@ -1,6 +1,7 @@
 {
     "name": "energised/coding-challenge",
     "description": "A simple application to calculate price of the power based on different things",
+    "license": ["MIT"],
     "require-dev": {
         "phpunit/phpunit": "9"
     },
