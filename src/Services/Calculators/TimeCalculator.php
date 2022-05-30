@@ -1,11 +1,13 @@
 <?php
 
 
-namespace App\Services;
+namespace App\Services\Calculators;
 
 
-class ChargingTime
+class TimeCalculator extends CalculatorAbstract
 {
+    protected string $name = 'Time';
+
     protected \DateTime $timestampStart;
     protected \DateTime $timestampStop;
 
@@ -45,7 +47,7 @@ class ChargingTime
      * returns hours between start and stop
      * @return float
      */
-    public function get(): float
+    public function getAmount(): float
     {
         $diff = $this->timestampStart->diff($this->timestampStop);
         return $diff->d * 24 + $diff->h;

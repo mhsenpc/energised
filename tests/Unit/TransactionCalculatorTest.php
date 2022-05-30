@@ -2,19 +2,17 @@
 
 namespace Tests;
 
-use App\Services\TimeCalculator;
-use App\Services\TransactionCalculator;
+use App\Services\Calculators\TransactionCalculator;
 use PHPUnit\Framework\TestCase;
 
-class TimeCalculatorTest extends TestCase
+class TransactionCalculatorTest extends TestCase
 {
     public function testItWorksWithStandardInput()
     {
         $sut = new TransactionCalculator();
-        $sut->setAmount(2);
         $sut->setPricePerUnit(1);
         $this->assertEquals(
-            2,
+            1,
             $sut->calculate()
         );
     }
@@ -22,8 +20,7 @@ class TimeCalculatorTest extends TestCase
     public function testItWorksWithFloatInput()
     {
         $sut = new TransactionCalculator();
-        $sut->setAmount(2.5);
-        $sut->setPricePerUnit(1);
+        $sut->setPricePerUnit(2.5);
         $this->assertEquals(
             2.5,
             $sut->calculate()
@@ -33,7 +30,6 @@ class TimeCalculatorTest extends TestCase
     public function testItFailsWithWrongInput()
     {
         $sut = new TransactionCalculator();
-        $sut->setAmount(2);
         $sut->setPricePerUnit(1);
         $this->assertNotEquals(
             10,

@@ -1,28 +1,29 @@
 <?php
 
 
-namespace App\Services;
+namespace App\Services\Calculators;
 
 
-class TransactionCalculator
+use App\Contracts\CalculatorInterface;
+use App\Exceptions\NotImplementedException;
+
+class CalculatorAbstract implements CalculatorInterface
 {
-    protected float $amount;
     protected float $pricePerUnit;
+    protected string $name;
 
     /**
      * @return float
      */
     public function getAmount(): float
     {
-        return $this->amount;
+        throw new NotImplementedException();
     }
 
-    /**
-     * @param float $amount
-     */
-    public function setAmount(float $amount): void
+
+    public function getName(): string
     {
-        $this->amount = $amount;
+        return $this->name;
     }
 
     /**
@@ -41,8 +42,8 @@ class TransactionCalculator
         $this->pricePerUnit = $pricePerUnit;
     }
 
-    public function calculate()
+    public function calculate(): float
     {
-        return $this->amount * $this->pricePerUnit;
+        return $this->getAmount() * $this->getPricePerUnit();
     }
 }
