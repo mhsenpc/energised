@@ -42,17 +42,4 @@ class EnergyCalculatorTest extends TestCase
             $sut->getAmount()
         );
     }
-
-    /**
-     * @expectedException InvalidMeterValueException
-     */
-    public function testItShouldReturnException(){
-        $sut = new EnergyCalculator();
-        $sut->setMeterStart(100);
-        $sut->setMeterStop(90);
-
-        $this->expectException(InvalidMeterValueException::class);
-
-        $sut->getAmount();
-    }
 }
