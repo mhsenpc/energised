@@ -19,13 +19,24 @@ class TimeCalculatorTest extends TestCase
         );
     }
 
-    public function testGetAmount()
+    public function testGetAmountWithInteger()
+    {
+        $sut = new TimeCalculator();
+        $sut->setTimestampStart('2021-04-05T10:04:00Z');
+        $sut->setTimestampStop('2021-04-05T13:04:00Z');
+        $this->assertEquals(
+            3,
+            $sut->getAmount()
+        );
+    }
+
+    public function testHoursWithFragments()
     {
         $sut = new TimeCalculator();
         $sut->setTimestampStart('2021-04-05T10:04:00Z');
         $sut->setTimestampStop('2021-04-05T13:34:00Z');
         $this->assertEquals(
-            3,
+            3.5,
             $sut->getAmount()
         );
     }

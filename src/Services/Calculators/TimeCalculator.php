@@ -50,6 +50,6 @@ class TimeCalculator extends CalculatorAbstract
     public function getAmount(): float
     {
         $diff = $this->timestampStart->diff($this->timestampStop);
-        return $diff->d * 24 + $diff->h;
+        return $diff->d * 24 + $diff->h + ($diff->i / 60) ;
     }
 }

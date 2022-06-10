@@ -16,7 +16,7 @@ class EnergyCalculatorTest extends TestCase
         $sut->setMeterStart(20);
         $sut->setMeterStop(100);
         $this->assertEquals(
-            80 * 0.30,
+            0.08 * 0.30,
             $sut->calculate()
         );
     }
@@ -38,7 +38,7 @@ class EnergyCalculatorTest extends TestCase
         $sut->setMeterStart(20);
         $sut->setMeterStop(100);
         $this->assertEquals(
-            80,
+            0.08,
             $sut->getAmount()
         );
     }
