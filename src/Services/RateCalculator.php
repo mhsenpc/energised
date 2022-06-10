@@ -27,9 +27,9 @@ class RateCalculator
     {
         $sum = 0;
         foreach ($this->components as $component) {
-            $sum += $component->getAmount();
+            $sum += $component->calculate();
         }
-        return $sum;
+        return round($sum , 2);
     }
 
 }

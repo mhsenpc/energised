@@ -35,15 +35,21 @@ class CalculatorAbstract implements CalculatorInterface
     }
 
     /**
-     * @param float|int $pricePerUnit
+     * @param float $pricePerUnit
      */
-    public function setPricePerUnit($pricePerUnit): void
+    public function setPricePerUnit(float $pricePerUnit): void
     {
         $this->pricePerUnit = $pricePerUnit;
     }
 
     public function calculate(): float
     {
-        return $this->getAmount() * $this->getPricePerUnit();
+        $result =  $this->getAmount() * $this->getPricePerUnit();
+        return $this->formatNumber($result);
+    }
+
+    protected function formatNumber(float $number){
+        $fig = pow(10, 3);
+        return (ceil($number * $fig) / $fig);
     }
 }

@@ -50,6 +50,6 @@ class EnergyCalculator extends CalculatorAbstract
 
     public function getAmount(): float
     {
-        return $this->meterStop - $this->meterStart;
+        return ($this->meterStop - $this->meterStart) / 1000; // change wh to kwh
     }
 }
