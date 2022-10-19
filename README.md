@@ -1,5 +1,7 @@
 # Coding challenge
 
+[![PHP Composer](https://github.com/mhsenpc/energised/actions/workflows/php.yml/badge.svg)](https://github.com/mhsenpc/energised/actions/workflows/php.yml)
+
 A CSMS (charging station management system) such as be.ENERGISED is used to manage charging stations, charging
 processes and customers (so-called eDrivers) amongst other things.
 
